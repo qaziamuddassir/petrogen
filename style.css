@@ -1,9 +1,4 @@
-/* ==========================================================
-   PETROGEN — Website Styles
-   A handful of "variables" at the top hold the brand colors,
-   fonts and spacing. Change a value here and it updates the
-   whole site — that's the only reason they exist.
-   ========================================================== */
+
 
 :root {
   --crimson: #A6103F;
@@ -94,9 +89,7 @@ ul {
   margin-bottom: 14px;
 }
 
-/* A small sunburst spark, echoing the rays in the Petrogen logo mark.
-   Used instead of a plain line so every section carries a bit of the
-   actual brand mark, not just a generic accent bar. */
+
 .eyebrow::before {
   content: "";
   width: 16px;
@@ -134,10 +127,6 @@ ul {
   font-size: 16px;
 }
 
-/* ----------------------------------------------------------
-   Buttons
-   ---------------------------------------------------------- */
-.btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -200,9 +189,6 @@ ul {
   justify-content: center;
 }
 
-/* ==========================================================
-   TOP INFO BAR (visible only before scrolling)
-   ========================================================== */
 .top-bar {
   background: var(--dark);
   color: var(--white);
@@ -283,9 +269,6 @@ ul {
   color: var(--dark);
 }
 
-/* ==========================================================
-   HEADER (transparent on hero, glass + sticky after scroll)
-   ========================================================== */
 .site-header {
   position: fixed;
   top: 44px;
@@ -353,7 +336,6 @@ ul {
   inset: 0;
 }
 
-/* If a real logo file loads (images/logo.png), it sits on top of the gradient mark */
 .logo-mark img {
   position: relative;
   z-index: 1;

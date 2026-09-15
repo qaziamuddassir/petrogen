@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Stations | Petrogen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Archivo:wght@700;800;900&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<script src="header.js"></script>
+
+<!-- PAGE BANNER -->
+<section class="page-hero">
+  <img class="page-hero-bg" src="images/stations-banner.jpg" alt="" onerror="this.onerror=null;this.src='https://picsum.photos/seed/petrogen-stations-banner/1920/700'">
+  <div class="hero-overlay"></div>
+  <div class="wrapper page-hero-content">
+    <span class="eyebrow" data-en="Our Stations" data-ar="محطاتنا">Our Stations</span>
+    <h1 data-en="All Petrogen Stations" data-ar="جميع محطات بتروجين">All Petrogen Stations</h1>
+    <div class="breadcrumb">
+      <a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a> /
+      <span data-en="Our Stations" data-ar="محطاتنا">Our Stations</span>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE MAP -->
+<section class="section">
+  <div class="wrapper">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-en="Find a Station" data-ar="ابحث عن محطة">Find a Station</span>
+      <h2 data-en="471 stations across the Kingdom" data-ar="محطة في أنحاء المملكة">Stations across the Kingdom</h2>
+      <p class="section-text" style="margin:18px auto 0" data-en="Search by name or city, or filter by region, to find the nearest Petrogen station." data-ar="ابحث بالاسم أو المدينة، أو صفِّ حسب المنطقة، للعثور على أقرب محطة بتروجين.">Search by name or city, or filter by region, to find the nearest Petrogen station.</p>
+    </div>
+
+    <div class="map-toolbar reveal">
+      <div class="map-toolbar-filters">
+        <input type="text" id="stationSearch" data-en-placeholder="Search by station name or city..." data-ar-placeholder="ابحث باسم المحطة أو المدينة..." placeholder="Search by station name or city...">
+        <select id="regionFilter">
+          <option value="" data-en="All Regions" data-ar="كل المناطق">All Regions</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="stationsMap" class="stations-map reveal"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-alt">
+  <div class="wrapper">
+    <div class="cta-band reveal">
+      <h2 data-en="Don't see a Petrogen station near you yet?" data-ar="لا توجد محطة بتروجين قريبة منك بعد؟">Don't see a Petrogen station near you yet?</h2>
+      <a href="franchise.html" class="btn btn-light" data-en="Franchise With Us" data-ar="امتياز معنا">Franchise With Us</a>
+    </div>
+  </div>
+</section>
+
+<script src="footer.js"></script>
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script src="data-stations.js"></script>
+<script src="stations-map.js"></script>
+</body>
+</html>

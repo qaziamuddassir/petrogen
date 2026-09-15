@@ -1,0 +1,423 @@
+<!doctype html>
+<title>Petrogen Image Sourcing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Archivo:wght@700;800;900&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crimson:#A6103F;
+  --crimson-ink:#7c0c2f;
+  --gold:#c8862a;
+  --gold-soft:#f0d9ae;
+  --ink:#241318;
+  --ink-soft:#5c4750;
+  --line:#e6dcd6;
+  --surface:#ffffff;
+  --surface-raised:#fbf6f1;
+  --bg:#f7f1ec;
+  --done-fg:#3f6b4c;
+  --done-bg:#e3ede5;
+  --mono-tag:#6b5a4f;
+  --focus:#A6103F;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --crimson:#e0567f;
+    --crimson-ink:#f3a9bf;
+    --gold:#e0ac5c;
+    --gold-soft:#4a3a22;
+    --ink:#f3ece8;
+    --ink-soft:#bfaeb3;
+    --line:#3a2b30;
+    --surface:#241820;
+    --surface-raised:#2c1e27;
+    --bg:#1a1116;
+    --done-fg:#8fcaa2;
+    --done-bg:#22322a;
+    --mono-tag:#a9968d;
+    --focus:#e0567f;
+  }
+}
+:root[data-theme="dark"]{
+  --crimson:#e0567f;
+  --crimson-ink:#f3a9bf;
+  --gold:#e0ac5c;
+  --gold-soft:#4a3a22;
+  --ink:#f3ece8;
+  --ink-soft:#bfaeb3;
+  --line:#3a2b30;
+  --surface:#241820;
+  --surface-raised:#2c1e27;
+  --bg:#1a1116;
+  --done-fg:#8fcaa2;
+  --done-bg:#22322a;
+  --mono-tag:#a9968d;
+  --focus:#e0567f;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  padding-inline:20px;
+  padding-block:0 48px;
+}
+h1,h2,h3{text-wrap:balance; margin:0}
+h1,h2,.display{font-family:'Archivo',system-ui,sans-serif}
+.eyebrow,.uilabel,button,.pill{font-family:'Manrope',system-ui,sans-serif}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+a{color:var(--crimson)}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  margin-inline:-20px; padding-inline:20px;
+  background:var(--bg);
+  padding-block:22px 16px;
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{max-width:980px; margin-inline:auto}
+.eyebrow{
+  font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--crimson); display:flex; align-items:center; gap:8px; margin-bottom:8px;
+}
+.eyebrow svg{width:14px; height:14px}
+h1{font-size:clamp(22px,3.4vw,30px); font-weight:800; letter-spacing:-.01em}
+.sub{color:var(--ink-soft); font-size:14.5px; margin-top:6px; max-width:62ch; line-height:1.55}
+
+.controls{
+  display:flex; gap:10px; align-items:center; margin-top:16px; flex-wrap:wrap;
+}
+.progress-pill{
+  display:flex; align-items:center; gap:8px;
+  background:var(--surface-raised); border:1px solid var(--line);
+  border-radius:999px; padding:6px 8px 6px 14px; font-size:13px; font-weight:600;
+  white-space:nowrap;
+}
+.progress-track{
+  width:72px; height:6px; border-radius:99px; background:var(--line); overflow:hidden;
+}
+.progress-fill{
+  height:100%; background:linear-gradient(90deg,var(--gold),var(--crimson));
+  border-radius:99px; transition:width .3s ease; width:0%;
+}
+.search-wrap{position:relative; flex:1; min-width:180px}
+.search-wrap svg{
+  position:absolute; left:11px; top:50%; translate:0 -50%; width:15px; height:15px; color:var(--ink-soft);
+  pointer-events:none;
+}
+#filterInput{
+  width:100%; padding:9px 12px 9px 32px; border-radius:10px; border:1px solid var(--line);
+  background:var(--surface); color:var(--ink); font-size:13.5px; font-family:inherit;
+}
+#filterInput:focus-visible{outline:2px solid var(--focus); outline-offset:1px}
+#filterInput::placeholder{color:var(--ink-soft)}
+
+/* ---------- layout ---------- */
+main{max-width:980px; margin-inline:auto; padding-top:22px}
+
+.donecallout{
+  display:flex; gap:12px; align-items:flex-start;
+  background:var(--done-bg); border:1px solid color-mix(in srgb, var(--done-fg) 30%, transparent);
+  border-radius:12px; padding:13px 16px; margin-bottom:26px; font-size:13.5px; line-height:1.55;
+}
+.donecallout svg{width:18px; height:18px; flex:none; margin-top:1px; color:var(--done-fg)}
+.donecallout b{color:var(--done-fg)}
+.donecallout code{background:transparent; font-size:12.5px}
+
+.group{margin-bottom:30px}
+.group-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  padding-bottom:9px; margin-bottom:12px; border-bottom:2px solid var(--ink);
+}
+.group-head h2{font-size:16.5px; font-weight:800}
+.group-count{font-size:12px; color:var(--ink-soft); font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums}
+
+.rows{display:flex; flex-direction:column; gap:8px}
+
+.row{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:12px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:13px 14px;
+  transition:opacity .2s ease, border-color .2s ease;
+}
+.row.is-done{border-color:color-mix(in srgb, var(--done-fg) 35%, var(--line))}
+.row.is-hidden{display:none}
+
+.check{
+  width:21px; height:21px; margin-top:2px; accent-color:var(--done-fg); cursor:pointer; flex:none;
+}
+
+.row-main{min-width:0}
+.row-top{
+  display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin-bottom:5px;
+}
+.filename{
+  font-size:13px; font-weight:600; color:var(--ink);
+  background:var(--surface-raised); border:1px solid var(--line);
+  padding:2px 8px; border-radius:6px; word-break:break-all;
+}
+.row.is-done .filename{ text-decoration:line-through; color:var(--ink-soft); text-decoration-color:var(--done-fg); }
+.donebadge{
+  display:none; align-items:center; gap:4px; font-size:11px; font-weight:700;
+  color:var(--done-fg); background:var(--done-bg); padding:2px 8px; border-radius:99px;
+}
+.row.is-done .donebadge{display:inline-flex}
+.row.is-done .donebadge svg{width:11px; height:11px}
+
+.usage{font-size:13.5px; color:var(--ink); line-height:1.5; margin-bottom:2px}
+.usage b{font-weight:600}
+.suggestion{font-size:12.5px; color:var(--ink-soft); line-height:1.5}
+.note{font-size:12px; color:var(--gold); margin-top:4px; font-style:italic}
+
+.query-row{
+  display:flex; align-items:center; gap:8px; margin-top:10px; flex-wrap:wrap;
+}
+.query{
+  font-size:12px; color:var(--mono-tag); background:var(--surface-raised);
+  border:1px dashed var(--line); border-radius:7px; padding:3px 9px;
+}
+.searchlinks{display:flex; gap:6px; flex-wrap:wrap}
+.searchlinks a{
+  font-size:11.5px; font-weight:700; text-decoration:none;
+  color:var(--ink); background:var(--surface-raised); border:1px solid var(--line);
+  padding:5px 10px; border-radius:7px; transition:background .15s ease, border-color .15s ease, color .15s ease;
+}
+.searchlinks a:hover{border-color:var(--crimson); color:var(--crimson)}
+.searchlinks a:focus-visible{outline:2px solid var(--focus); outline-offset:1px}
+
+.emptystate{
+  text-align:center; padding:40px 20px; color:var(--ink-soft); font-size:14px;
+}
+
+@media (max-width:480px){
+  .row{grid-template-columns:auto 1fr; padding:12px}
+  .searchlinks a{padding:5px 8px; font-size:11px}
+}
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Petrogen Website
+    </div>
+    <h1>Image Sourcing Checklist</h1>
+    <p class="sub">Every image slot used across the 13 pages — the exact file name the site already looks for, what it's for, and a ready search prompt for Freepik, Shutterstock, Adobe Stock, Unsplash or Pexels. Drop a licensed photo into <code class="mono">/images</code> under the same name and it replaces the placeholder automatically — no code changes.</p>
+    <div class="controls">
+      <div class="progress-pill">
+        <span id="progressText">0 / 45 sourced</span>
+        <span class="progress-track"><span class="progress-fill" id="progressFill"></span></span>
+      </div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="filterInput" type="text" placeholder="Filter by file name, page or keyword…">
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="donecallout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
+    <div><b>Already sourced — no action needed:</b> <code>petrogen_logo.png</code> and <code>logo.webp</code> (header + footer logo) were pulled from the live petrogen.sa site and are already in place.</div>
+  </div>
+
+  <div id="groups"></div>
+  <div class="emptystate" id="emptyState" hidden>No image slots match "<span id="emptyQuery"></span>".</div>
+</main>
+
+<script>
+const DATA = [
+{page:"Home", items:[
+  {file:"hero-station.jpg", usage:"Home — hero slide 1 (full-screen)", suggestion:"Wide fuel station canopy / forecourt exterior, daylight or dusk", query:"gas station canopy exterior wide angle dusk"},
+  {file:"hero-pumps.jpg", usage:"Home — hero slide 2 (full-screen)", suggestion:"Fuel pump nozzles mid-refuel, close-mid shot", query:"fuel pump nozzle refueling car close up"},
+  {file:"hero-franchise.png", usage:"Home — hero slide 3 (full-screen)", suggestion:"Strong wide shot for the franchise/growth theme — highway or station row", query:"highway gas station row aerial business"},
+  {file:"about-station.jpg", usage:"Home — “Our Story” teaser (tall photo)", suggestion:"Station exterior, portrait crop", query:"gas station exterior portrait vertical"},
+  {file:"loginstic-fleet2.jpg", usage:"Home — “Our Fleet” full-bleed section", suggestion:"Fuel tanker trucks / delivery fleet on a highway", note:"Same subject as logistics-fleet.jpg on the Services page below — reuse one licensed photo for both, saved under both file names.", query:"fuel tanker truck fleet highway"},
+  {file:"cert-quality.jpg", usage:"Home — ISO 9001 certification card", suggestion:"Staff quality-check or service-standard moment", query:"quality inspection checklist staff warehouse"},
+  {file:"cert-environment.jpg", usage:"Home — ISO 14001 certification card", suggestion:"Environmental / clean fuel-handling imagery", query:"environmental sustainability green energy industrial"},
+  {file:"cert-safety.jpg", usage:"Home — ISO 45001 certification card", suggestion:"Safety helmet, PPE, technician inspection", query:"safety helmet ppe worker inspection"},
+  {file:"cert-section-bg.jpg", usage:"Home — Certifications section fixed background (parallax)", suggestion:"Wide, low-detail road or station panorama — sits behind text, needs empty sky/road areas", query:"highway road wide panorama sunset empty"},
+  {file:"gallery-station.jpeg", usage:"Home — Media Gallery tile (large)", suggestion:"Station exterior", query:"gas station exterior modern architecture"},
+  {file:"gallery-pumps.jpeg", usage:"Home — Media Gallery tile", suggestion:"Fuel nozzles close-up", query:"fuel nozzles pump row close up"},
+  {file:"gallery-ev.jpg", usage:"Home — Media Gallery tile", suggestion:"EV charging photo", query:"ev charging station car plugged in"},
+  {file:"gallery-market.png", usage:"Home — Media Gallery tile (wide)", suggestion:"Mini market photo", query:"convenience store mini market interior wide"},
+]},
+{page:"About Petrogen", items:[
+  {file:"about-banner.jpg", usage:"About — page-top banner (wide)", suggestion:"Wide station or road shot", query:"fuel station highway wide banner"},
+  {file:"about-licenses-bg.jpg", usage:"About — “Licensed & Accredited” section fixed background (parallax)", suggestion:"Wide, low-detail road or station panorama — sits behind text, needs empty sky/road areas", query:"highway road wide panorama sunset empty"},
+  {file:"about-main.jpeg", usage:"About — main story photo (tall)", suggestion:"Station exterior, portrait crop", query:"gas station exterior vertical portrait"},
+  {file:"why-choose-us.jpg", usage:"About — “Why Choose Us” full-bleed section", suggestion:"Station, staff or road shot, wide", query:"gas station staff team wide shot"},
+]},
+{page:"Our Vision", items:[
+  {file:"vision-banner.jpg", usage:"Our Vision — page banner", suggestion:"Wide, forward-looking road or horizon shot", note:"Also reused as the small “Our Vision” teaser card photo on the About page.", query:"highway road horizon forward wide"},
+  {file:"vision-pillars.jpg", usage:"Our Vision — “Three Pillars” split-section photo", suggestion:"Station or network shot, portrait-ish crop", query:"gas station exterior modern network"},
+]},
+{page:"Our Message", items:[
+  {file:"message-banner.jpg", usage:"Our Message — page banner", suggestion:"Wide station or team shot", query:"gas station team wide banner"},
+  {file:"message-commitments.jpg", usage:"Our Message — “Commitments” split-section photo", suggestion:"Staff or team at a station", query:"gas station staff team service"},
+]},
+{page:"Our Values", items:[
+  {file:"values-banner.jpg", usage:"Our Values — page banner", suggestion:"Wide station or team shot", note:"Also reused as the small “Our Values” teaser card photo on the About page.", query:"team staff gas station wide shot"},
+]},
+{page:"Our Team", items:[
+  {file:"team-banner.jpg", usage:"Our Team — page banner", suggestion:"Team or station shot, wide", query:"team group station wide banner"},
+  {file:"team-photo.jpg", usage:"Our Team — intro section photo", suggestion:"Staff / team group photo, professional", query:"staff team group photo professional"},
+]},
+{page:"Petrogen Strategy", items:[
+  {file:"strategy-banner.jpg", usage:"Petrogen Strategy — page banner", suggestion:"Wide highway or road-network shot", query:"highway aerial road network wide"},
+  {file:"strategy-pillars.jpg", usage:"Petrogen Strategy — “Four Pillars” split-section photo", suggestion:"Highway or road-network shot, portrait-ish crop", query:"highway road network aerial wide"},
+]},
+{page:"Gas Station Development", items:[
+  {file:"gsd-banner.jpg", usage:"Gas Station Development — page banner", suggestion:"Station under construction, wide", query:"construction site gas station building"},
+  {file:"gsd-construction.jpg", usage:"Gas Station Development — intro section photo", suggestion:"Station under construction", query:"gas station under construction site"},
+  {file:"gsd-process-bg.jpg", usage:"Gas Station Development — “Our Process” section fixed background (parallax)", suggestion:"Wide, low-detail road or station panorama — sits behind text, needs empty sky/road areas", query:"highway road wide panorama sunset empty"},
+]},
+{page:"Services", items:[
+  {file:"services-banner.jpg", usage:"Services — page banner", suggestion:"Wide station or fuel shot", query:"fuel station wide banner road"},
+  {file:"services-fuel.jpeg", usage:"Services — “Fuel & Gas Stations” card", suggestion:"Pump nozzle close-up", note:"Also used as a Services thumbnail on the Home page.", query:"fuel pump nozzle close up gasoline"},
+  {file:"service-tires.jpg", usage:"Services — “Tire & Oil Care” card", suggestion:"Tire or workshop photo", note:"Also used as a Services thumbnail on the Home page.", query:"car tire workshop mechanic service"},
+  {file:"service-electrical.jpg", usage:"Services — “Electrical Maintenance” card", suggestion:"Dashboard or technician photo", note:"Also used as a Services thumbnail on the Home page.", query:"car dashboard technician electrical check"},
+  {file:"service-market.jpg", usage:"Services — “Mini Market” card", suggestion:"Mini market or storefront photo", note:"Also used as a Services thumbnail on the Home page.", query:"convenience store interior shelves"},
+  {file:"service-atm.jpg", usage:"Services — “ATM Services” card", suggestion:"Card payment terminal photo", note:"Also used as a Services thumbnail on the Home page.", query:"card payment terminal pos machine"},
+  {file:"service-ev.jpg", usage:"Services — “EV Charging” card", suggestion:"EV charging photo", note:"Also used as a Services thumbnail on the Home page.", query:"electric vehicle charging station plug"},
+  {file:"services-ehs.jpg", usage:"Services — Environmental Health & Safety section", suggestion:"Safety gear, inspection, or team photo", query:"safety inspection ppe gear team"},
+  {file:"logistics-fleet.jpg", usage:"Services — “Our Fleet” full-bleed section", suggestion:"Tanker trucks / fleet / highway", note:"Same subject as loginstic-fleet2.jpg on the Home page above — reuse one licensed photo for both, saved under both file names.", query:"fuel tanker truck fleet highway"},
+]},
+{page:"Franchise", items:[
+  {file:"franchise-banner.jpg", usage:"Franchise — page banner", suggestion:"Wide station or road shot", query:"gas station road wide banner"},
+  {file:"franchise-station.jpg", usage:"Franchise — intro photo", suggestion:"Station exterior", query:"gas station exterior modern architecture"},
+  {file:"franchise-vendors.jpg", usage:"Franchise — Vendors section photo", suggestion:"Supplies, warehouse, or handshake photo", query:"warehouse supplies business handshake"},
+  {file:"franchise-shops.jpg", usage:"Franchise — Shops for Rent photo", suggestion:"Retail shop / storefront photo", query:"retail shop storefront convenience store"},
+]},
+{page:"Careers", items:[
+  {file:"careers-banner.jpg", usage:"Careers — page banner", suggestion:"Team or station photo, wide", query:"team group station wide banner"},
+]},
+{page:"Contact Us", items:[
+  {file:"contact-banner.jpeg", usage:"Contact — page banner", suggestion:"Wide station or road shot", query:"gas station road wide banner"},
+]},
+{page:"All Stations", items:[
+  {file:"stations-banner.jpg", usage:"All Stations — page banner", suggestion:"Wide station or road/map-themed shot", query:"highway road network map wide banner"},
+]},
+];
+
+function buildLinks(q){
+  const plus = encodeURIComponent(q).replace(/%20/g,"+");
+  const dash = q.trim().toLowerCase().replace(/\s+/g,"-");
+  const enc = encodeURIComponent(q);
+  return [
+    {label:"Freepik", href:`https://www.freepik.com/search?format=search&query=${enc}`},
+    {label:"Shutterstock", href:`https://www.shutterstock.com/search/${plus}`},
+    {label:"Adobe Stock", href:`https://stock.adobe.com/search?k=${enc}`},
+    {label:"Unsplash", href:`https://unsplash.com/s/photos/${dash}`},
+    {label:"Pexels", href:`https://www.pexels.com/search/${enc}/`},
+  ];
+}
+
+function loadDone(){
+  try{ return JSON.parse(localStorage.getItem("petrogen-img-done")||"{}"); }catch(e){ return {}; }
+}
+function saveDone(state){
+  try{ localStorage.setItem("petrogen-img-done", JSON.stringify(state)); }catch(e){}
+}
+
+const doneState = loadDone();
+const groupsEl = document.getElementById("groups");
+const total = DATA.reduce((n,g)=>n+g.items.length,0);
+
+DATA.forEach((group, gi)=>{
+  const section = document.createElement("section");
+  section.className = "group";
+  section.dataset.group = gi;
+
+  const head = document.createElement("div");
+  head.className = "group-head";
+  head.innerHTML = `<h2>${group.page}</h2><span class="group-count" data-count></span>`;
+  section.appendChild(head);
+
+  const rows = document.createElement("div");
+  rows.className = "rows";
+
+  group.items.forEach((item, ii)=>{
+    const id = item.file;
+    const isDone = !!doneState[id];
+    const ext = item.file.split(".").pop().toUpperCase();
+    const row = document.createElement("div");
+    row.className = "row" + (isDone ? " is-done" : "");
+    row.dataset.searchtext = (item.file+" "+group.page+" "+item.usage+" "+item.suggestion+" "+item.query).toLowerCase();
+
+    const links = buildLinks(item.query);
+    const linksHtml = links.map(l=>`<a href="${l.href}" target="_blank" rel="noopener noreferrer">${l.label}</a>`).join("");
+
+    row.innerHTML = `
+      <input type="checkbox" class="check" id="chk-${gi}-${ii}" ${isDone?"checked":""} aria-label="Mark ${item.file} as sourced">
+      <div class="row-main">
+        <div class="row-top">
+          <span class="filename mono">${item.file}</span>
+          <span class="donebadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Sourced</span>
+        </div>
+        <div class="usage">${item.usage}</div>
+        <div class="suggestion">${item.suggestion}</div>
+        ${item.note ? `<div class="note">${item.note}</div>` : ""}
+        <div class="query-row">
+          <span class="query mono">${item.query}</span>
+          <div class="searchlinks">${linksHtml}</div>
+        </div>
+      </div>
+    `;
+
+    const cb = row.querySelector(".check");
+    cb.addEventListener("change", ()=>{
+      doneState[id] = cb.checked;
+      saveDone(doneState);
+      row.classList.toggle("is-done", cb.checked);
+      updateProgress();
+    });
+
+    rows.appendChild(row);
+  });
+
+  section.appendChild(rows);
+  groupsEl.appendChild(section);
+});
+
+function updateProgress(){
+  const doneCount = Object.values(doneState).filter(Boolean).length;
+  document.getElementById("progressText").textContent = `${doneCount} / ${total} sourced`;
+  document.getElementById("progressFill").style.width = `${total ? (doneCount/total*100) : 0}%`;
+  document.querySelectorAll(".group").forEach(sec=>{
+    const rows = sec.querySelectorAll(".row");
+    const done = sec.querySelectorAll(".row.is-done").length;
+    sec.querySelector("[data-count]").textContent = `${done} / ${rows.length}`;
+  });
+}
+updateProgress();
+
+const filterInput = document.getElementById("filterInput");
+const emptyState = document.getElementById("emptyState");
+const emptyQuery = document.getElementById("emptyQuery");
+filterInput.addEventListener("input", ()=>{
+  const q = filterInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll(".group").forEach(sec=>{
+    let groupHasVisible = false;
+    sec.querySelectorAll(".row").forEach(row=>{
+      const match = !q || row.dataset.searchtext.includes(q);
+      row.classList.toggle("is-hidden", !match);
+      if(match) groupHasVisible = true;
+    });
+    sec.hidden = !groupHasVisible;
+    if(groupHasVisible) anyVisible = true;
+  });
+  emptyState.hidden = anyVisible;
+  emptyQuery.textContent = filterInput.value;
+});
+</script>

@@ -75,12 +75,26 @@ function setLanguage(arabic) {
   if (langBtn) {
     langBtn.textContent = arabic ? "EN / English" : "AR / العربية";
   }
+
+  // remember the choice so the next page loads in the same language
+  try {
+    localStorage.setItem("petrogen-lang", arabic ? "ar" : "en");
+  } catch (e) {}
 }
 
 if (langBtn) {
   langBtn.addEventListener("click", function () {
     setLanguage(!isArabic);
   });
+}
+
+// apply a previously saved language choice on page load
+var savedLang = null;
+try {
+  savedLang = localStorage.getItem("petrogen-lang");
+} catch (e) {}
+if (savedLang === "ar") {
+  setLanguage(true);
 }
 
 /* ---------- 4. HERO SLIDER (home page only) ---------- */

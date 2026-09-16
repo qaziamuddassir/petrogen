@@ -230,6 +230,9 @@ ul {
 }
 
 .top-bar-left a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin-right: 22px;
   font-weight: 500;
   opacity: 0.85;
@@ -599,6 +602,15 @@ ul {
   background:
     radial-gradient(circle at 80% 15%, rgba(245, 166, 35, 0.28), transparent 45%),
     linear-gradient(115deg, rgba(30, 16, 23, 0.92) 15%, rgba(166, 16, 63, 0.45) 60%, rgba(245, 166, 35, 0.15) 100%);
+}
+
+/* In Arabic the hero text sits on the right, so the dark shading
+   needs to sit under it too — mirror the gradient horizontally
+   instead of leaving the darkest area under the (now empty) left side. */
+html[dir="rtl"] .hero-overlay {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(245, 166, 35, 0.28), transparent 45%),
+    linear-gradient(245deg, rgba(30, 16, 23, 0.92) 15%, rgba(166, 16, 63, 0.45) 60%, rgba(245, 166, 35, 0.15) 100%);
 }
 
 .hero-content {
@@ -1954,17 +1966,13 @@ html[dir="rtl"] .card-link:hover svg {
 }
 
 /* Small inline icons used next to phone / email / WhatsApp text links */
+/* Icon sits inside a flex link/label now (.top-bar-left a,
+   .footer-grid a) — gap handles the spacing, so this stays
+   direction-agnostic and needs no separate RTL override. */
 .inline-icon {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  vertical-align: -2px;
-  margin-right: 5px;
-}
-
-html[dir="rtl"] .inline-icon {
-  margin-right: 0;
-  margin-left: 5px;
 }
 
 /* ==========================================================
@@ -2427,7 +2435,9 @@ html[dir="rtl"] .inline-icon {
 
 .footer-grid a,
 .footer-grid span {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 13px;
   font-size: 14px;
   transition: color 0.3s ease, padding-left 0.3s ease;

@@ -2615,12 +2615,15 @@ html[dir="rtl"] body {
 }
 
 /* Sakkal Majalla for all Arabic text. It's not a web font — no CDN
-   hosts it — so this relies on it being installed locally (it ships
-   with Windows/Office), with Arabic-capable fallbacks for visitors
-   who don't have it. Wildcard + !important so it wins over every
+   hosts it — so it only renders for visitors who have it installed
+   locally (it ships with Windows/Office). Tajawal (loaded from
+   Google Fonts, see the <link> in <head>) is the real, guaranteed
+   fallback for everyone else — Mac, Linux, mobile — so Arabic still
+   looks deliberately designed instead of dropping to a generic
+   system font. Wildcard + !important so it wins over every
    font-family rule in this file, without editing each one. */
 html[dir="rtl"] * {
-  font-family: 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', Tahoma, sans-serif !important;
+  font-family: 'Sakkal Majalla', 'Tajawal', 'Traditional Arabic', 'Simplified Arabic', Tahoma, sans-serif !important;
 }
 
 html[dir="rtl"] .top-bar-left a {

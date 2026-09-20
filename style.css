@@ -204,14 +204,17 @@ ul {
    TOP INFO BAR (visible only before scrolling)
    ========================================================== */
 .top-bar {
-  background: var(--dark);
+  background: rgba(30, 16, 23, 0.35);
   color: var(--white);
   font-family: 'Manrope', 'Inter', sans-serif;
   font-size: 13px;
   overflow: hidden;
   max-height: 44px;
   transition: max-height 0.4s var(--ease), opacity 0.3s ease;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1001;
 }
 
@@ -618,6 +621,7 @@ html[dir="rtl"] .hero-overlay {
   z-index: 3;
   max-width: 660px;
   color: var(--white);
+  padding-top: 90px;
 }
 
 .hero-content .eyebrow {
@@ -627,6 +631,8 @@ html[dir="rtl"] .hero-overlay {
 
 .hero-content h1 {
   font-size: clamp(32px, 5.5vw, 58px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
   margin-bottom: 22px;
 }
 
@@ -840,6 +846,7 @@ html[dir="rtl"] .hero-overlay {
 .page-hero-content {
   position: relative;
   z-index: 2;
+  padding-top: 90px;
 }
 
 .page-hero h1 {
